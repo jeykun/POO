@@ -1,0 +1,165 @@
+\ProvidesPackage{classdiagram}[24 August 2019 Package for Class Diagrams: Object Oriented Programming]
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Author: JUNIOR R. RIBEIRO 
+% E-mail: juniorribeiro2013@gmail.com
+% Date of creation: 24 Ago 2019
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% NOTE: THE TABLE CREATED HAS ONLY 2 COLUMNS
+%
+% This package provides the following commands
+% Setter command
+%     \changeclasstext[LABEL] it changes the "Class" label in the table
+%     \changelegendtext[LABEL] it changes the "Legend" label in the table
+%     \changecontinuedonnext[TEXT] it changes the "continued on next page" text
+%     \changecontinuedfromprevious[TEXT] it changes the "continued from previous page" text
+%     \changeclassendstext[TEXT] it changes the "[...] ends here" text
+%     \changedescriptcolor[colorname] it changes the description color
+% they may be changed at anywhere (in the preamble or inside the document)
+%
+% Main commands:
+%     \class{NAME}
+%     \attr{attributeName}
+%     \idescript{inline description (short text)}
+%     \xidescript{special inline description (short text) - before <methods> or <legend>}
+%     \descript{description (long text)}
+%     \xdescript{special description (long text) - before <methods> or <legend>}
+%     \methods                   %% it prints a separator line
+%     \meth[input1, input2]{methodName}
+%     \legends                   %% it prints a separator line
+%     \endclass
+%     
+% Observation: table separators "&" and "\\" are needed, for example:
+%    \class{ANY}
+%    + & \attr{firstAttribute} \idescript{this is the first public attribute}
+%    - & \attr{secondAttribute} \xidescript{this is the second private attribute}
+%    \methods
+%    + & \meth[input1, input2]{methodName} \\
+%    \legends
+%    + & public attributes\\
+%    - & private attributes
+%    \endclass
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%
+%%% HOW TO USE
+%%%
+%%% \changeclasstext[LABEL]              %set new value if you want
+%%% \changelegendtext[LABEL]             %set new value if you want
+%%% \changecontinuedonnext[TEXT]         %set new value if you want
+%%% \changecontinuedfromprevious[TEXT]   %set new value if you want
+%%% \changeclassendstext[TEXT]           %set new value if you want
+%%%
+%%% \class{NAME}
+%%%     privacy & \attr{attribute}
+%%%         \idescript{     %% inline description  command (short text)
+%%%                   any short description here
+%%%          }
+%%%     privacy & \attr{attribute}
+%%%         \xidescript{    %% SPECIAL inline description command (short text)
+%%%                         %% is needed before \methods or \legend
+%%%                   any short description here
+%%%          }
+%%% \methods                    % optional command
+%%%     privacy & \meth{methodName}\\
+%%%         \descript{
+%%%                   any long description here
+%%%          }
+%%%     privacy & \meth[x, y]{methodName2}
+%%%          \xdescript{    %% SPECIAL description command
+%%%                         %% is needed before \methods or \legend
+%%%                   any long description here
+%%%          }
+%%% \legends                     % optional command
+%%%     $+$ & public       \\
+%%%     $-$ & private      \\
+%%%     \#  & protected
+%%% \endclass
+%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+
+\RequirePackage{array}
+\RequirePackage{color}
+\RequirePackage{longtable}
+\renewcommand{\arraystretch}{1.25}
+
+%creating commands to change the default texts
+\newcommand{\changeclasstext}[1][Class]{\def\@classtext{#1}}
+\newcommand{\changelegendtext}[1][Legend]{\def\@legendtext{#1}}
+\newcommand{\changecontinuedonnext}[1][(continued on next page)]{\def\@changecontinuedonnext{#1}}
+\newcommand{\changecontinuedfromprevious}[1][continued from previous page]{\def\@changecontinuedfromprevious{#1}}
+\newcommand{\changeclassendstext}[1][ends here.]{\def\@changeclassendstext{#1}}
+\newcommand{\changedescriptcolor}[1][blue]{\def\@descriptcolor{\color{#1}}}
+
+
+
+% descript environments: inline description (idescript)
+%                        (long) description (descript)
+%                        special idescript  (xidescript)
+%                        special descript   (xdescript)
+% special commands was created to use before any command between:
+%             \methods and \legend
+% they fixes errors in the border of the table
+\newcommand{\xdescript}[1]{\\ & \phantom{palavra}
+\begin{minipage}{0.65\textwidth}\@descriptcolor
+#1
+\end{minipage}\vspace*{6pt}
+}
+\newcommand{\xidescript}[1]{ \dotfill{\@descriptcolor//#1}}
+\newcommand{\descript}[1]{\xdescript{#1}\\}
+\newcommand{\idescript}[1]{\xidescript{#1}\\}
+
+
+
+% initializing its default values
+\changeclasstext
+\changelegendtext
+\changecontinuedonnext
+\changecontinuedfromprevious
+\changeclassendstext
+\changedescriptcolor
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newcommand{\meth}[2][ ]{\texttt{.#2}\texttt{(#1)}}
+\newcommand{\constructor}[2][ ]{\texttt{#2}\texttt{(#1)}}
+\newcommand{\attr}[2][]{#1&\texttt{.#2}}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% CLASS BEGINS
+\newcommand{\class}[1]{ 
+\begin{center}
+\begin{longtable}{|| m{0.1\textwidth}||m{0.8\textwidth}||} 
+\caption{{\@classtext} \texttt{#1}}\\
+\hline\hline 
+\multicolumn{2}{||c||}{\centering\Large\textbf{\@classtext:}  \texttt{#1}} \\
+\hline\hline
+\endfirsthead
+\multicolumn{2}{r}{\tablename\ \thetable\ -- {\@classtext} \texttt{#1} \textit{(\@changecontinuedfromprevious)}} \\
+\hline\hline
+\endhead
+\hline\hline
+\multicolumn{2}{r}{\textit{\@changecontinuedonnext}} \\
+\endfoot
+\hline\hline
+% comment this next line if you do not want the last text (after the table)
+\multicolumn{2}{r}{{\@classtext} \texttt{#1} \@changeclassendstext}
+\endlastfoot
+}
+
+\def\methods{
+\\\hline\hline
+}
+
+\def\legends{
+\\\hline\hline \multicolumn{2}{||c||}{\centering\Large\textbf{<< {\@legendtext} >>}}\\\hline\hline
+}
+
+\def\endclass{
+\end{longtable}
+\end{center}
+}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% CLASS ENDS
+
