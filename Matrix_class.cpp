@@ -62,7 +62,10 @@ public:
 	Matrix(int,int); //constructor method//done
 	void fromuser(bool); //method for getting entries from user//done
 	void print(); //method for printing the matrix//done
-	bool isvector(); //returns true if m xor n is one
+	bool isvector(); //returns true if m xor n is one//done
+	bool ensureVector(); //returns true if n == 1//done
+	bool issquare(); //returns true if m == n//done
+	bool isscalar(); //returns true if m == n == 1//done
 	void shape(); //prints the shape//done
 	int shape1(); //returns the number of rows//done
 	int shape2(); //returns the number of columns//done
@@ -233,12 +236,28 @@ int Matrix::shape2(){
 return this->n;
 }
 
-bool Matrix::isvector(){
-if(this->shape1() == 1 || this->shape2() == 1 ){
-	return true;
-}else{
-	return false;
+//issquare
+bool Matrix::issquare(){
+if(this->m == this->n) return true;
+return false;
 }
+
+//isscalar
+bool Matrix::isscalar(){
+if(this->m == 1 && this->issquare()) return true;
+return false;
+}
+
+//ensureVector
+bool Matrix::isvector(){
+if(this->shape1() == 1 || this->shape2() == 1 )	return true;
+return false;
+}
+
+//ensureVector
+bool Matrix::ensureVector(){
+if(this->shape2() == 1)	return true;
+return false;
 }
 
 //destroy
@@ -250,8 +269,6 @@ void Matrix::destroy(){
 		free(this->me);
 		info("Matrix is destroyed. Cannot be used anymore.",true);
 		this->isdestroyed = true;
-		this->m = -1;
-		this->n = -1;
 	}
 }
 
@@ -287,18 +304,19 @@ rcout("soma",true); //red cout, true breaks the line
 m.print(); 
 n.print();
 sum.print();
-
+cout << sum.isscalar() << sum.issquare() << endl;
 
 bcout("subtração",true); //blue cout, true breaks the line
 m.print();
 n.print();
 sub.print();
+cout << sub.isscalar() << sub.issquare() << endl;
 
 bcout("multiplicação",true);
 m.print();
 p.print();
 mult.print();
-
+cout << mult.isscalar() << mult.issquare() << endl;
 
 m.destroy();
 p.destroy();
