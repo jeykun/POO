@@ -1,74 +1,131 @@
 \ProvidesPackage{classdiagram}[12 September 2019 Package for Class Diagrams: Object Oriented Programming]
-%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Author: JUNIOR R. RIBEIRO 
 % E-mail: juniorribeiro2013@gmail.com
-% Date of creation: 24 Ago 2019
+% Date of creation: 12 Sep 2019
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % NOTE: THE TABLE CREATED HAS ONLY 2 COLUMNS
 %
 % This package provides the following commands
 % Setter command
-%     \changeclasstext[LABEL] it changes the "Class" label in the table
-%     \changelegendtext[LABEL] it changes the "Legend" label in the table
-%     \changecontinuedonnext[TEXT] it changes the "continued on next page" text
-%     \changecontinuedfromprevious[TEXT] it changes the "continued from previous page" text
-%     \changeclassendstext[TEXT] it changes the "[...] ends here" text
-%     \changedescriptcolor[colorname] it changes the description color
+%     \changeclasstext[LABEL] 
+%             % it changes the "Class" label in the table
+%     \changelegendtext[LABEL] 
+%             % it changes the "Legend" label in the table
+%     \changecontinuedonnext[TEXT]
+%             % it changes the "continued on next page" text
+%     \changecontinuedfromprevious[TEXT]
+%             % it changes the "continued from previous page" text
+%     \changeclassendstext[TEXT]
+%             % it changes the "Class NAME ends here" text
+%     \changedescriptcolor[colorname]
+%             % it changes the description color
 % they may be changed at anywhere (in the preamble or inside the document)
 %
 % Main commands:
-%     \class{NAME}
-%     \attr{attributeName}
-%     \idescript{inline description (short text)}
-%     \xidescript{special inline description (short text) - before <methods> or <legend>}
-%     \descript{description (long text)}
-%     \xdescript{special description (long text) - before <methods> or <legend>}
-%     \methods                   %% it prints a separator line
-%     \meth[input1, input2]{methodName}
-%     \legends                   %% it prints a separator line
-%     \endclass
+%     \CLASS \STUFF=\ATTR. \METH.=\FUNC===\CONSTRUCTOR \METHODS=\LEGENDS \ENDCLASS
+%
+%     \CLASS{Name} 
+%            % initializes the table
+%
+%     \STUFF[inline]{privacySymbol}{elementName}{Optional description. Let it empty like {} if you 
+%                                          do not want descript anything.}
+%            % it does NOT use an initial dot like ".elementName", but just "elementName".
+%            % use [inline] option whether you want to write a short description
+%            %%% it may be used to set legend symbols (after \LEGENDS command) or to set constants
+%            %%% just after \CLASS statement; it is the same as \ATTR command, only does not print
+%            %%% the initial dot. 
+%
+%     \ATTR[inline]{privacySymbol}{attributeName}{Optional description. Let it empty like {} if you
+%                                           do not want descript anything .}
+%            % it DOES use an initial dot like ".attributeName"
+%            % use [inline] option whether you want to write a short description
+%            %%% it is useful to set the attributes of the object; use it between \CLASS and \METHODS
+%            %%% statements.
+%
+%     \METHODS
+%            % it prints a line to separate attributes from methods.
+%
+%     \CONSTRUCTOR[inline]{privacySymbol}{constructorMethodName}{inputs,of,the,method}{Optional 
+%                    description. Let it empty like {} if you do not want descript anything.}
+%            % it does NOT use an initial dot like ".constructorMethodName", but just
+%            %       "constructorMethodName".
+%            % use [inline] option whether you want to write a short description
+%            %%% it is useful to set the constructor method of your class; it is the same as
+%            %%% \METH command, just do not prints the initial dot; you must to use \METHODS
+%            %%%  command to print a separator line and make it easier to read your LaTeX document
+%
+%     \METH[inline]{privacySymbol}{methodName}{inputs,of,the,method}{Optional description. Let it
+%                     empty like {} if you do not want descript anything.}
+%            % it DOES use an initial dot like ".methodName"
+%            % use [inline] option whether you want to write a short description
+%            %%% it is useful to set your methods; you must to use \METHODS command to print a
+%            %%% separator line and make it easier to read your LaTeX document
 %     
-% Observation: table separators "&" and "\\" are needed, for example:
-%    \class{ANY}
-%    + & \attr{firstAttribute} \idescript{this is the first public attribute}
-%    - & \attr{secondAttribute} \xidescript{this is the second private attribute}
-%    \methods
-%    + & \meth[input1, input2]{methodName} \\
-%    \legends
-%    + & public attributes\\
-%    - & private attributes
-%    \endclass
+%     \FUNC[inline]{privacySymbol}{functionName}{inputs,of,the,method}{Optional description. Let it
+%                     empty like {} if you do not want descript anything.}
+%            % it does NOT use an initial dot like ".functionName", but just "functionName".
+%            % use [inline] option whether you want to write a short description
+%            %%% it is an alias for the \CONSTRUCTOR command; it makes the same as him.
+%            %%% it is useful to describe functions in general.
+% 
+%     \LEGENDS
+%            % it prints a seoarator element with the default text "<<LEGENDS>>"; 
+%            % you can change the default text with  \changelegendtext[newLABEL]
+%            %%% this command was planned to describe the <privacySymbol>s used;
+%            %%% for doing that, use the \STUFF command as already explained.
+%
+%     \ENDCLASS 
+%            % ends the table.
+%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%
 %%% HOW TO USE
 %%%
-%%% \changeclasstext[LABEL]              %set new value if you want
-%%% \changelegendtext[LABEL]             %set new value if you want
-%%% \changecontinuedonnext[TEXT]         %set new value if you want
-%%% \changecontinuedfromprevious[TEXT]   %set new value if you want
-%%% \changeclassendstext[TEXT]           %set new value if you want
+%%% \changeclasstext[LABEL]              % set new value if you want wherever you want
+%%% \changelegendtext[LABEL]             % set new value if you want wherever you want
+%%% \changecontinuedonnext[TEXT]         % set new value if you want wherever you want
+%%% \changecontinuedfromprevious[TEXT]   % set new value if you want wherever you want
+%%% \changeclassendstext[TEXT]           % set new value if you want wherever you want
 %%%
-%%% \CLASS{NAME}
+%%% \CLASS{Workspace}
+%%% \STUFF[inline]{+g}{PI}{the number $\pi=3.14159265358979$}
+%%% \STUFF[inline]{+g}{NEPER}{the number of Neper $e=2.71828182845905$}
+%%% \STUFF[inline]{+g}{DIMENSION}{}
+%%% \METHODS
+%%% \FUNC[inline]{+}{printr}{msg}{prints some message in red color.}
+%%% \FUNC[inline]{+}{print}{msg}{}
+%%% \LEGENDS
+%%% \STUFF{+}{public}{}
+%%% \STUFF{g}{global}{}
+%%% \ENDCLASS
 %%%      
-%%%      
-%%%      
-%%%      
-%%%      
-%%% \METHODS                    % optional command
-%%%     privacy & \meth{methodName}\\
-%%%         \descript{
-%%%                   any long description here
-%%%          }
-%%%     privacy & \meth[x, y]{methodName2}
-%%%          \xdescript{    %% SPECIAL description command
-%%%                         %% is needed before \methods or \legend
-%%%                   any long description here
-%%%          }
-%%% \LEGENDS                     % optional command
-%%%     $+$ & public       \\
-%%%     $-$ & private      \\
-%%%     \#  & protected
+%%%
+%%%
+%%% \CLASS{Matrix}
+%%% \ATTR[inline]{--}{nrows}{the number of rows}
+%%% \ATTR[inline]{}{ncols}{the number of columns}
+%%% \METHODS
+%%% \CONSTRUCTOR[inline]{+}{Matrix}{m,n}{m, n are the number of rows and columns respect.}
+%%% \METH{+}{mult}{otherMatrix}{
+%%%   method for multiplying matrices; it raises an error whether dimentions do not match.
+%%%
+%%%   >> otherMatrix is a Matrix object.
+%%% }
+%%% \METH{+}{sum}{otherMatrix}{
+%%%   method for summing matrices; it raises an error whether dimentions do not match.
+%%%
+%%%   >> otherMatrix is a Matrix object.
+%%% }
+%%% \METH{--}{throwifdestroyed}{ }{
+%%% it raises an error when it is attempted to use the matrix after destroyed
+%%% }
+%%% \METH[inline]{+}{destroy}{ }{
+%%% destroys the matrix
+%%% }
+%%% \LEGENDS
+%%% \STUFF{+}{public}{}
+%%% \STUFF{--}{private}{}
 %%% \ENDCLASS
 %%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -80,6 +137,7 @@
 \RequirePackage{longtable}
 \renewcommand{\arraystretch}{1.25}
 
+
 %creating commands to change the default texts
 \newcommand{\changeclasstext}[1][Class]{\def\@classtext{#1}}
 \newcommand{\changelegendtext}[1][Legend]{\def\@legendtext{#1}}
@@ -87,7 +145,6 @@
 \newcommand{\changecontinuedfromprevious}[1][continued from previous page]{\def\@changecontinuedfromprevious{#1}}
 \newcommand{\changeclassendstext}[1][ends here.]{\def\@changeclassendstext{#1}}
 \newcommand{\changedescriptcolor}[1][blue]{\def\@descriptcolor{\color{#1}}}
-
 
 
 % descript environments: inline description (idescript)
@@ -106,7 +163,6 @@
 
 
 
-
 % initializing its default values
 \changeclasstext
 \changelegendtext
@@ -119,6 +175,7 @@
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \newif\ifbreakLine \breakLinefalse
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \newcommand{\ATTR}[4][]{% [inline]{privacity}{name}{description}	
@@ -211,6 +268,7 @@
     \breakLinetrue
 }
 
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% CLASS BEGINS
 \newcommand{\CLASS}[1]{ 
 \begin{center}
@@ -233,15 +291,21 @@
 \breakLinefalse\!\!\!
 }
 
+
+
 \def\METHODS{
 \\\hline\hline
 \breakLinefalse
 }
 
+
+
 \def\LEGENDS{
 \\\hline\hline \multicolumn{2}{||c||}{\centering\Large\textbf{<< {\@legendtext} >>}}\\\hline\hline
 \breakLinefalse
 }
+
+
 
 \def\ENDCLASS{
 \end{longtable}
