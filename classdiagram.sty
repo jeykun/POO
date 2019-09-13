@@ -148,18 +148,15 @@
 \newcommand{\changedescriptcolor}[1][blue]{\def\@descriptcolor{\color{#1}}}
 
 
-% descript environments: inline description (idescript)
-%                        (long) description (descript)
-%                        special idescript  (xidescript)
-%                        special descript   (xdescript)
-% special commands was created to use before any command between:
-%             \methods and \legend
-% they fixes errors in the border of the table
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%% block description
 \newcommand{\descript}[1]{\\[3pt] & \phantom{spa}
 \begin{minipage}{0.75\textwidth}\@descriptcolor
 #1
 \end{minipage}\vspace*{4pt}
 }
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%% inline description
 \newcommand{\idescript}[1]{ \dotfill{\@descriptcolor//#1}}
 
 
