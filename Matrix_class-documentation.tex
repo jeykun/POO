@@ -37,40 +37,6 @@ citecolor = blue,
 %\changecontinuedonnext[continua...]
 %\changedescriptcolor[colorname]
 
-\class{\_\_workspace\_\_}
- & (empty)
-\xidescript{
-there is no global constants on workspace 
- }
-\methods
-+ & \texttt{warn(msg,endline*)}
-\descript{
-This function prints "WARN: msg" (red) on terminal.\\
->> msg is a string; \\
->> endline is a boolean.
-}
-+ & \texttt{info(msg,endline*)}
-\descript{
-This function prints "INFO: msg" (blue) on terminal.\\
->> msg is a string; \\
->> endline is a boolean.
-}
-+ & \texttt{rcout(msg,endline*)}
-\descript{
-This function <<red cout>> prints "msg" (red) on terminal.\\
->> msg is a string; \\
->> endline is a boolean.
-}
-+ & \texttt{bcout(msg,endline*)}
-\xdescript{
-This function <<blue cout>> prints "msg" (blue) on terminal.\\
->> msg is a string; \\
->> endline is a boolean.
-}
-\legends
-+ & public\\
-* & optional 
-\endclass\newpage
 
 
 
@@ -83,76 +49,115 @@ This function <<blue cout>> prints "msg" (blue) on terminal.\\
 
 
 
+%ATTR1optional3mandtatory
+%STUFF1optional3mandtatory
+%METH1optional4mandtatory
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%% BEGIN WORKSPACE
+\CLASS{\_\_workspace\_\_}
+\STUFF[inline]{}{(empty)}{there is no global constants on workspace.}
+\METHODS
+\FUNC[]{+}{warn}{msg,endline*}{
+	This function prints "WARN: msg" in red on terminal.
+
+	>> msg is a string;
+ 
+	>> endline is a boolean.
+}
+\FUNC{+}{info}{msg,endline*}{
+	This function prints "INFO: msg" in blue on terminal.
+
+	>> msg is a string;
+ 
+	>> endline is a boolean.
+}
+\FUNC{+}{rcout}{msg,endline*}{
+	This function prints "msg" in red on terminal.
+
+	>> msg is a string;
+ 
+	>> endline is a boolean.
+}
+\FUNC{+}{bcout}{msg,endline*}{
+	This function prints "msg" in blue on terminal.
+
+	>> msg is a string;
+ 
+	>> endline is a boolean.
+}
+\LEGENDS
+\STUFF[inline]{+}{public}{}
+\STUFF[inline]{*}{optional}{}
+\ENDCLASS\newpage
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%% END WORKSPACE
 
 
 
-\class{Matrix}
-\attr[$-$]{me}
-\idescript{
-Pointer to pointer (the Matrix itself).
-}
-\attr[$-$]{isdestroyed}
-\idescript{
-Boolean indicating whether the object was destroyed.
-}
-\attr[$-$]{m}
-\idescript{
-The number of rows of the Matrix. A positive integer.
-}
-\attr[$-$]{n}
-\xidescript{
-The number of columns of the Matrix. A positive integer.
-}
-\methods%just before \methods, use a \x(i)descript
-$+$&\constructor[m,n]{Matrix}
-\idescript{
-Constructor method
-}
-$-$ & \meth[functionName]{throwisdestroyed}
-\descript{
-This function raises an error and exits the program always when it is attempted to use a destroyed Matrix.\\
->> functionName is a string indicating the name of what function is 	attempting to use the Matrix.
-}
-$+$&\meth[i,j,value]{set}
-\descript{
-}
-$+$&\meth[i,j]{get}
-\descript{
-}
-$+$&\meth[otherMatrix]{sum}
-\descript{
-}
-$+$&\meth[otherMatrix]{sub}
-\descript{
-}
-$+$&\meth[otherMatrix]{mul}
-\descript{
-}
-$+$&\meth[clearPrompt]{fromuser}
-\descript{
-}
-$+$&\meth{print}
-\descript{
-}
-$+$&\meth{shape}
-\descript{
-}
-$+$&\meth{shape1}
-\descript{
-}
-$+$&\meth{shape2}
-\descript{
-}
-$+$&\meth{destroy}
-\xdescript{
-}
-\legends%just before \legends, use a \x(i)descript
-$-$ & private\\
-$+$ & public\\
-\endclass
 
 
 
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%% BEGIN MATRIX
+\CLASS{Matrix}
+\ATTR[inline]{$-$}{me}{
+	Pointer to pointer like **me (the Matrix itself).
+}
+\ATTR[inline]{$-$}{isdestroyed}{
+	Boolean indicating whether the object was destroyed.
+} 
+\ATTR[inline]{$-$}{m}{
+	The number of rows of the Matrix. A positive integer.
+}
+\ATTR[inline]{$-$}{n}{
+	The number of columns of the Matrix. A positive integer.
+}
+\METHODS
+\CONSTRUCTOR[inline]{+}{Matrix}{m,n}{
+	The constructor method.
+}
+\METH{$+$}{throwisdestroyed}{functionName}{
+This function raises an error and exits the program always when it is attempted to use a destroyed Matrix.
+
+>> functionName is a string indicating the name of what function is attempting to use the Matrix.
+}
+\METH{$+$}{set}{i,j,value}{
+...
+}
+\METH{$+$}{get}{i,j}{
+...
+}
+\METH{$+$}{sum}{otherMatrix}{
+...
+}
+\METH{$+$}{sub}{otherMatrix}{
+...
+}
+\METH{$+$}{mul}{otherMatrix}{
+...
+}
+\METH{$+$}{fromuser}{clearPrompt}{
+...
+}
+\METH{$+$}{print}{ }{
+...
+}
+\METH{$+$}{shape}{ }{
+...
+}
+\METH{$+$}{shape1}{ }{
+...
+}
+\METH{$+$}{shape2}{ }{
+...
+}
+\METH{$+$}{destroy}{ }{
+	This method desallocates the matrix and frees the memory. The integers m and n still remain on memory.
+}
+\LEGENDS
+\STUFF[inline]{$+$}{public}{}
+\STUFF[inline]{$-$}{private}{}
+\ENDCLASS
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%% END MATRIX
 
 
 
